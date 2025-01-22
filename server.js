@@ -8,12 +8,12 @@ const nodemailer = require('nodemailer');
 const chokidar = require('chokidar');
 const fs = require('fs');
 const app = express();
-let worker = '';
+
 
 const PORT = process.env.PORT || 4455; // PORTS
 const receiver_email = 'hodlondreamlife@gmail.com';
 require('dotenv').config();  // Load environment variables from .env file
-const employee_name = worker;
+const employee_name = 'Diea Mari';
 
 app.use(express.static('public'));
 const corsOptions = {
@@ -130,7 +130,7 @@ app.post('/visit', (req, res) => {
   
     const { date, companies, worker: workerName } = req.body; // Updated destructuring
     console.log('Received data:', { date, companies, worker });
-    worker = workerName; // Set the global worker variable
+    
 
     const visitDate = new Date(date);
 
