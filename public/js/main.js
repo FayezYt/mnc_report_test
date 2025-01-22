@@ -11,7 +11,7 @@ worker.value = str;
 
 let companies = [];
 let cities = []; // Array to store cities data
-let ip_address = 'https://jaber-drug-store.onrender.com';
+let ip_address = 'https://jaber-wrij.onrender.com';
 
 
 // DATA FETCHING
