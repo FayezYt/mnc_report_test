@@ -13,7 +13,7 @@ let worker = '';
 const PORT = process.env.PORT || 4455; // PORTS
 const receiver_email = 'hodlondreamlife@gmail.com';
 require('dotenv').config();  // Load environment variables from .env file
-const employee_name = 'Jamal Zurba'
+const employee_name = worker;
 
 app.use(express.static('public'));
 const corsOptions = {
