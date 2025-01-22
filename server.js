@@ -254,9 +254,9 @@ function sendEmail(filePath) {
         month: 'long',
         day: 'numeric'
     }).format(new Date());
-
+    
     const mailOptions = {
-        from: `"صيدلية جابر" <${worker}>`, // Arabic sender name
+        from: `"مستودع جابر" <${worker}>`,
         to: receiver_email,
         subject: `تقرير إكسل جديد - ${worker}`,
         html: `
@@ -265,30 +265,31 @@ function sendEmail(filePath) {
             <head>
                 <meta charset="utf-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>تقرير صيدلية جابر</title>
+                <title>تقرير مستودع جابر</title>
                 <style>
-                    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+                    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Changa:wght@400;600&display=swap');
                     
                     body {
-                        font-family: 'Tajawal', Arial, sans-serif;
-                        line-height: 1.8;
+                        font-family: 'Changa', 'Cairo', sans-serif;
+                        line-height: 2;
                         margin: 0;
                         padding: 0;
                         background-color: #f0f4f8;
                         direction: rtl;
+                        font-size: 18px;
                     }
                     .email-container {
-                        max-width: 650px;
+                        max-width: 700px;
                         margin: 0 auto;
                         background-color: #ffffff;
-                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                        border-radius: 15px;
+                        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+                        border-radius: 20px;
                         overflow: hidden;
                     }
                     .header {
-                        background: linear-gradient(135deg, #0a4b78 0%, #1a5f7a 100%);
+                        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
                         color: white;
-                        padding: 30px;
+                        padding: 40px;
                         text-align: center;
                         position: relative;
                     }
@@ -298,83 +299,109 @@ function sendEmail(filePath) {
                         bottom: 0;
                         left: 0;
                         right: 0;
-                        height: 10px;
-                        background: linear-gradient(90deg, #ffd700, #ffed4a);
+                        height: 12px;
+                        background: linear-gradient(90deg, #e74c3c, #f39c12);
+                    }
+                    .logo-container {
+                        text-align: center;
+                        margin-bottom: 20px;
+                    }
+                    .logo {
+                        width: 100px;
+                        height: 100px;
+                        border-radius: 50%;
+                        border: 4px solid #fff;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
                     }
                     .header h1 {
-                        font-size: 32px;
+                        font-size: 42px;
                         margin: 0;
-                        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+                        font-family: 'Cairo', sans-serif;
+                        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
                     }
                     .content {
-                        padding: 30px;
+                        padding: 40px;
                         background-color: #ffffff;
-                        position: relative;
+                        font-size: 20px;
                     }
                     .worker-info {
-                        background: #f8f9fa;
-                        border-right: 4px solid #1a5f7a;
-                        padding: 15px;
-                        margin: 20px 0;
-                        border-radius: 0 8px 8px 0;
+                        background: linear-gradient(to left, #ecf0f1, #f9f9f9);
+                        border-right: 6px solid #3498db;
+                        padding: 20px;
+                        margin: 25px 0;
+                        border-radius: 0 12px 12px 0;
                     }
                     .attachment-info {
-                        background: linear-gradient(to left, #f8f9fa, #ffffff);
-                        border: 1px solid #e0e0e0;
-                        padding: 20px;
-                        margin: 20px 0;
-                        border-radius: 12px;
+                        background: linear-gradient(to left, #e8f4f8, #ffffff);
+                        border: 2px solid #3498db;
+                        padding: 25px;
+                        margin: 25px 0;
+                        border-radius: 15px;
                         position: relative;
                     }
                     .attachment-info::before {
                         content: '📎';
-                        font-size: 24px;
+                        font-size: 32px;
                         position: absolute;
-                        right: -12px;
+                        right: -16px;
                         top: 50%;
                         transform: translateY(-50%);
                         background: #ffffff;
-                        padding: 5px;
+                        padding: 8px;
                         border-radius: 50%;
-                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
                     }
                     .signature {
-                        margin-top: 30px;
-                        padding-top: 20px;
-                        border-top: 2px solid #f0f4f8;
+                        margin-top: 35px;
+                        padding-top: 25px;
+                        border-top: 3px solid #ecf0f1;
                         text-align: left;
+                        font-size: 22px;
                     }
                     .footer {
-                        background: #f8f9fa;
-                        padding: 20px;
+                        background: linear-gradient(to right, #2c3e50, #3498db);
+                        padding: 25px;
                         text-align: center;
-                        font-size: 14px;
-                        color: #666;
-                        border-top: 3px solid #1a5f7a;
+                        font-size: 16px;
+                        color: #ffffff;
+                        border-top: 4px solid #e74c3c;
                     }
                     .highlight {
-                        color: #1a5f7a;
-                        font-weight: 500;
+                        color: #2c3e50;
+                        font-weight: 600;
+                        font-size: 24px;
                     }
                     .date-badge {
                         display: inline-block;
-                        background: #1a5f7a;
+                        background: linear-gradient(to left, #3498db, #2980b9);
                         color: white;
-                        padding: 5px 15px;
-                        border-radius: 20px;
-                        font-size: 14px;
-                        margin: 10px 0;
+                        padding: 8px 20px;
+                        border-radius: 25px;
+                        font-size: 18px;
+                        margin: 15px 0;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    }
+                    p {
+                        margin: 15px 0;
+                        font-size: 20px;
+                    }
+                    strong {
+                        color: #2c3e50;
+                        font-size: 22px;
                     }
                 </style>
             </head>
             <body>
                 <div class="email-container">
                     <div class="header">
-                        <h1>صيدلية جابر</h1>
-                        <p>نظام التقارير الآلي</p>
+                        <div class="logo-container">
+                            <img src="cid:company-logo" class="logo" alt="مستودع جابر">
+                        </div>
+                        <h1>مستودع جابر</h1>
+                        <p style="font-size: 24px;">نظام التقارير الآلي</p>
                     </div>
                     <div class="content">
-                        <p>السيد المحترم إبراهيم ماري،</p>
+                        <p style="font-size: 24px;">السيد المحترم إبراهيم ماري،</p>
                         <p>نأمل أن تصلكم رسالتنا هذه وأنتم بأتم الصحة والعافية.</p>
                         
                         <div class="worker-info">
@@ -396,21 +423,28 @@ function sendEmail(filePath) {
                         <div class="signature">
                             <p>مع أطيب التحيات،<br>
                             <strong>${employee_name}</strong><br>
-                            صيدلية جابر</p>
+                            مستودع جابر</p>
                         </div>
                     </div>
                     <div class="footer">
-                        <p>هذه رسالة آلية من نظام التقارير الخاص بصيدلية جابر</p>
-                        <p>© ${new Date().getFullYear()} صيدلية جابر - جميع الحقوق محفوظة</p>
+                        <p>هذه رسالة آلية من نظام التقارير الخاص بمستودع جابر</p>
+                        <p>© ${new Date().getFullYear()} مستودع جابر - جميع الحقوق محفوظة</p>
                     </div>
                 </div>
             </body>
             </html>
         `,
-        attachments: [{
-            path: filePath,
-            filename: fileName
-        }]
+        attachments: [
+            {
+                path: filePath,
+                filename: fileName
+            },
+            {
+                filename: 'mnc.ico',
+                path: 'mnc.ico',
+                cid: 'company-logo'
+            }
+        ]
     };
 
     transporter.sendMail(mailOptions, (err, info) => {
