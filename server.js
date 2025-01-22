@@ -249,96 +249,159 @@ watcher.on('add', (filePath) => {
 
 function sendEmail(filePath) {
     const fileName = path.basename(filePath);
-    const currentDate = new Date().toLocaleDateString();
-    
+    const currentDate = new Intl.DateTimeFormat('ar-SA', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    }).format(new Date());
+
     const mailOptions = {
-        from: worker,
+        from: `"صيدلية جابر" <${worker}>`, // Arabic sender name
         to: receiver_email,
-        subject: `New Excel Report Generated - ${worker}`,
+        subject: `تقرير إكسل جديد - ${worker}`,
         html: `
             <!DOCTYPE html>
-            <html>
+            <html dir="rtl" lang="ar">
             <head>
                 <meta charset="utf-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Jaber Drug Store Report</title>
+                <title>تقرير صيدلية جابر</title>
                 <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+                    
                     body {
-                        font-family: Arial, sans-serif;
-                        line-height: 1.6;
+                        font-family: 'Tajawal', Arial, sans-serif;
+                        line-height: 1.8;
                         margin: 0;
                         padding: 0;
-                        background-color: #f5f5f5;
+                        background-color: #f0f4f8;
+                        direction: rtl;
                     }
                     .email-container {
-                        max-width: 600px;
+                        max-width: 650px;
                         margin: 0 auto;
-                        padding: 20px;
                         background-color: #ffffff;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                        border-radius: 15px;
+                        overflow: hidden;
                     }
                     .header {
-                        background-color: #1a5f7a;
+                        background: linear-gradient(135deg, #0a4b78 0%, #1a5f7a 100%);
                         color: white;
-                        padding: 20px;
+                        padding: 30px;
                         text-align: center;
-                        border-radius: 5px 5px 0 0;
+                        position: relative;
+                    }
+                    .header::after {
+                        content: '';
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        height: 10px;
+                        background: linear-gradient(90deg, #ffd700, #ffed4a);
+                    }
+                    .header h1 {
+                        font-size: 32px;
+                        margin: 0;
+                        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
                     }
                     .content {
-                        padding: 20px;
+                        padding: 30px;
                         background-color: #ffffff;
-                        border-left: 1px solid #e0e0e0;
-                        border-right: 1px solid #e0e0e0;
+                        position: relative;
                     }
-                    .footer {
-                        background-color: #f8f9fa;
+                    .worker-info {
+                        background: #f8f9fa;
+                        border-right: 4px solid #1a5f7a;
                         padding: 15px;
-                        text-align: center;
-                        font-size: 12px;
-                        color: #666;
-                        border-radius: 0 0 5px 5px;
-                        border: 1px solid #e0e0e0;
-                    }
-                    .logo {
-                        max-width: 150px;
-                        height: auto;
-                        margin-bottom: 10px;
+                        margin: 20px 0;
+                        border-radius: 0 8px 8px 0;
                     }
                     .attachment-info {
-                        background-color: #f8f9fa;
+                        background: linear-gradient(to left, #f8f9fa, #ffffff);
                         border: 1px solid #e0e0e0;
-                        padding: 10px;
-                        margin: 15px 0;
-                        border-radius: 4px;
+                        padding: 20px;
+                        margin: 20px 0;
+                        border-radius: 12px;
+                        position: relative;
+                    }
+                    .attachment-info::before {
+                        content: '📎';
+                        font-size: 24px;
+                        position: absolute;
+                        right: -12px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        background: #ffffff;
+                        padding: 5px;
+                        border-radius: 50%;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
                     }
                     .signature {
-                        margin-top: 20px;
-                        padding-top: 15px;
-                        border-top: 1px solid #e0e0e0;
+                        margin-top: 30px;
+                        padding-top: 20px;
+                        border-top: 2px solid #f0f4f8;
+                        text-align: left;
+                    }
+                    .footer {
+                        background: #f8f9fa;
+                        padding: 20px;
+                        text-align: center;
+                        font-size: 14px;
+                        color: #666;
+                        border-top: 3px solid #1a5f7a;
+                    }
+                    .highlight {
+                        color: #1a5f7a;
+                        font-weight: 500;
+                    }
+                    .date-badge {
+                        display: inline-block;
+                        background: #1a5f7a;
+                        color: white;
+                        padding: 5px 15px;
+                        border-radius: 20px;
+                        font-size: 14px;
+                        margin: 10px 0;
                     }
                 </style>
             </head>
             <body>
                 <div class="email-container">
                     <div class="header">
-                        <h1>Jaber Drug Store</h1>
+                        <h1>صيدلية جابر</h1>
+                        <p>نظام التقارير الآلي</p>
                     </div>
                     <div class="content">
-                        <p>Dear Mr. Mari,</p>
-                        <p>A new Excel report has been generated and is ready for your review.</p>
+                        <p>السيد المحترم إبراهيم ماري،</p>
+                        <p>نأمل أن تصلكم رسالتنا هذه وأنتم بأتم الصحة والعافية.</p>
                         
-                        <div class="attachment-info">
-                            <p>📎 Attached File: ${fileName}</p>
-                            <p>📅 Generated Date: ${currentDate}</p>
+                        <div class="worker-info">
+                            <p class="highlight">معلومات الموظف:</p>
+                            <p>اسم الموظف: ${employee_name}</p>
+                            <p>القسم: قسم التقارير</p>
                         </div>
                         
+                        <div class="attachment-info">
+                            <p class="highlight">تفاصيل التقرير:</p>
+                            <p>اسم الملف: ${fileName}</p>
+                            <div class="date-badge">
+                                تاريخ الإنشاء: ${currentDate}
+                            </div>
+                        </div>
+                        
+                        <p>يرجى مراجعة التقرير المرفق في أقرب وقت ممكن.</p>
+                        
                         <div class="signature">
-                            <p>Best regards,<br>
-                            ${employee_name}<br>
-                            Jaber Drug Store</p>
+                            <p>مع أطيب التحيات،<br>
+                            <strong>${employee_name}</strong><br>
+                            صيدلية جابر</p>
                         </div>
                     </div>
                     <div class="footer">
-                        <p>This is an automated message from Jaber Drug Store's reporting system</p>
+                        <p>هذه رسالة آلية من نظام التقارير الخاص بصيدلية جابر</p>
+                        <p>© ${new Date().getFullYear()} صيدلية جابر - جميع الحقوق محفوظة</p>
                     </div>
                 </div>
             </body>
