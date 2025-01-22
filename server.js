@@ -401,7 +401,7 @@ function sendEmail(filePath) {
                         <p style="font-size: 24px;">نظام التقارير الآلي</p>
                     </div>
                     <div class="content">
-                        <p style="font-size: 24px;">السيد المحترم إبراهيم ماري،</p>
+                        <p style="font-size: 24px;">السيد المحترم إبراهيم مرعي</p>
                         <p>نأمل أن تصلكم رسالتنا هذه وأنتم بأتم الصحة والعافية.</p>
                         
                         <div class="worker-info">
@@ -438,10 +438,11 @@ function sendEmail(filePath) {
             {
                 path: filePath,
                 filename: fileName
-            },
+            }
+            ,
             {
-                filename: 'mnc.ico',
-                path: 'mnc.ico',
+                filename: 'noreva.ico',
+                path: 'noreva.ico',
                 cid: 'company-logo'
             }
         ]
