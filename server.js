@@ -223,8 +223,6 @@ app.post('/no-work', (req, res) => {
 });
 
 
-
-
 const watchDir = __dirname;  // This will make the watchDir the current directory
 
 // Set up the file watcher
@@ -282,9 +280,20 @@ function sendEmail(filePath) {
             console.error('Error sending email:', err);
         } else {
             console.log('Email sent successfully:', info.response);
+
+            // Delete the file after email is sent
+            fs.unlink(filePath, (err) => {
+                if (err) {
+                    console.error('Error deleting file:', err);
+                } else {
+                    console.log(`File ${filePath} deleted successfully`);
+                }
+            });
         }
     });
 }
+
+
 
 
 console.log('Watching for new Excel files...');
