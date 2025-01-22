@@ -247,42 +247,114 @@ watcher.on('add', (filePath) => {
     }
 });
 
-// Function to send email with attachment
 function sendEmail(filePath) {
-    const fileName = path.basename(filePath);  // Get the file name
+    const fileName = path.basename(filePath);
+    const currentDate = new Date().toLocaleDateString();
+    
     const mailOptions = {
-        from: `${worker}`, // Sender email address
-        to: receiver_email, // Replace with Ibrahim's email
-        subject: `New Excel Report Generated - ${worker}`, 
-        text: `
-            Dear Mr. Mari,
-
-            I hope this message finds you well.
-
-            Please find attached the latest Excel report that has been generated. Kindly review the file at your earliest convenience. 
-
-            Should you have any questions or require any further information, feel free to reach out.
-
-            Best regards,
-            ${employee_name}
-        
+        from: worker,
+        to: receiver_email,
+        subject: `New Excel Report Generated - ${worker}`,
+        html: `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Jaber Drug Store Report</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        line-height: 1.6;
+                        margin: 0;
+                        padding: 0;
+                        background-color: #f5f5f5;
+                    }
+                    .email-container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        padding: 20px;
+                        background-color: #ffffff;
+                    }
+                    .header {
+                        background-color: #1a5f7a;
+                        color: white;
+                        padding: 20px;
+                        text-align: center;
+                        border-radius: 5px 5px 0 0;
+                    }
+                    .content {
+                        padding: 20px;
+                        background-color: #ffffff;
+                        border-left: 1px solid #e0e0e0;
+                        border-right: 1px solid #e0e0e0;
+                    }
+                    .footer {
+                        background-color: #f8f9fa;
+                        padding: 15px;
+                        text-align: center;
+                        font-size: 12px;
+                        color: #666;
+                        border-radius: 0 0 5px 5px;
+                        border: 1px solid #e0e0e0;
+                    }
+                    .logo {
+                        max-width: 150px;
+                        height: auto;
+                        margin-bottom: 10px;
+                    }
+                    .attachment-info {
+                        background-color: #f8f9fa;
+                        border: 1px solid #e0e0e0;
+                        padding: 10px;
+                        margin: 15px 0;
+                        border-radius: 4px;
+                    }
+                    .signature {
+                        margin-top: 20px;
+                        padding-top: 15px;
+                        border-top: 1px solid #e0e0e0;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="email-container">
+                    <div class="header">
+                        <h1>Jaber Drug Store</h1>
+                    </div>
+                    <div class="content">
+                        <p>Dear Mr. Mari,</p>
+                        <p>A new Excel report has been generated and is ready for your review.</p>
+                        
+                        <div class="attachment-info">
+                            <p>📎 Attached File: ${fileName}</p>
+                            <p>📅 Generated Date: ${currentDate}</p>
+                        </div>
+                        
+                        <div class="signature">
+                            <p>Best regards,<br>
+                            ${employee_name}<br>
+                            Jaber Drug Store</p>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <p>This is an automated message from Jaber Drug Store's reporting system</p>
+                    </div>
+                </div>
+            </body>
+            </html>
         `,
-        attachments: [
-            {
-                path: filePath, // Attach the detected file
-                filename: fileName // Attach the file with the original name
-            }
-        ]
+        attachments: [{
+            path: filePath,
+            filename: fileName
+        }]
     };
 
-    // Send the email
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
             console.error('Error sending email:', err);
         } else {
             console.log('Email sent successfully:', info.response);
-
-            // Delete the file after email is sent
             fs.unlink(filePath, (err) => {
                 if (err) {
                     console.error('Error deleting file:', err);
