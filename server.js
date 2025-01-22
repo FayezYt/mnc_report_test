@@ -8,7 +8,7 @@ const nodemailer = require('nodemailer');
 const chokidar = require('chokidar');
 const fs = require('fs');
 const app = express();
-
+let worker = '';
 
 const PORT = process.env.PORT || 4455; // PORTS
 const receiver_email = 'hodlondreamlife@gmail.com';
@@ -128,8 +128,9 @@ app.get('/get-locations', (req, res) => {
 app.post('/visit', (req, res) => {
     console.log('Received POST request to /visit');
   
-    const { date, companies, worker } = req.body; // Updated destructuring
+    const { date, companies, worker: workerName } = req.body; // Updated destructuring
     console.log('Received data:', { date, companies, worker });
+    worker = workerName; // Set the global worker variable
 
     const visitDate = new Date(date);
 
@@ -250,9 +251,9 @@ watcher.on('add', (filePath) => {
 function sendEmail(filePath) {
     const fileName = path.basename(filePath);  // Get the file name
     const mailOptions = {
-        from: process.env.EMAIL, // Sender email address
+        from: `${worker}`, // Sender email address
         to: receiver_email, // Replace with Ibrahim's email
-        subject: 'New Excel Report Generated - Please Review',
+        subject: `New Excel Report Generated - ${worker}`, 
         text: `
             Dear Mr. Mari,
 
