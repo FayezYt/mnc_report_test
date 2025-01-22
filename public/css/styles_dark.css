@@ -299,3 +299,25 @@ input[type="checkbox"] {
     margin: 0.5rem 0;
   }
 }
+
+@media (max-width: 600px) {
+  input[type="time"] {
+    width: 80%;
+  }
+
+  #searchInput { 
+    width: 80%;
+  }
+  
+  #worker {
+    width: 80%;
+  }
+
+  #city {
+    width: 85%;
+  }
+
+  #location {
+    width: 85%;
+  }
+}
