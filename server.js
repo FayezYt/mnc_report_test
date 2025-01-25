@@ -13,8 +13,8 @@ const app = express();
 const PORT = process.env.PORT || 4455; // PORTS
 const receiver_email = 'mareeibrahim90@gmail.com';
 require('dotenv').config();  // Load environment variables from .env file
-const worker = 'Diea Mari';
-const employee_name = 'Diea Mari';
+//const worker = 'Diea Mari';
+let worker = ''; // Define the worker variable globally
 
 app.use(express.static('public'));
 const corsOptions = {
@@ -129,7 +129,8 @@ app.get('/get-locations', (req, res) => {
 app.post('/visit', (req, res) => {
     console.log('Received POST request to /visit');
   
-    const { date, companies, worker: workerName } = req.body; // Updated destructuring
+    const { date, companies, worker: workerName } = req.body; // Extract worker from request body
+    worker = workerName; // Assign the value to the global variable
     console.log('Received data:', { date, companies, worker });
     
 
@@ -407,7 +408,7 @@ function sendEmail(filePath) {
                         
                         <div class="worker-info">
                             <p class="highlight">معلومات الموظف:</p>
-                            <p>اسم الموظف: ${employee_name}</p>
+                            <p>اسم الموظف: ${worker}</p>
                             <p>القسم: قسم التقارير</p>
                         </div>
                         
@@ -423,7 +424,7 @@ function sendEmail(filePath) {
                         
                         <div class="signature">
                             <p>مع أطيب التحيات،<br>
-                            <strong>${employee_name}</strong><br>
+                            <strong>${worker}</strong><br>
                             مستودع جابر</p>
                         </div>
                     </div>
@@ -472,5 +473,4 @@ console.log('Watching for new Excel files...');
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on http://0.0.0.0:${PORT}`);
-  });
-  
+});
