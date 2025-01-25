@@ -20,7 +20,8 @@ const users = [
     { username: 'diea', password: '1', name: 'Diea Mari' },
     { username: 'fadi', password: '1', name: 'فادي مقبول' },
     { username: 'ta', password: '1', name: 'تاييد خطاطبة' },
-    { username: 'ahmad', password: '1', name: 'احمد عبد العال' }
+    { username: 'ahmad', password: '1', name: 'احمد عبد العال' },
+    { username: 'islam', password: 'brother', name: 'اسلام الحب' }
 ];
 
 const loginForm = document.getElementById('login-form');
