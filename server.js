@@ -11,7 +11,7 @@ const app = express();
 
 
 const PORT = process.env.PORT || 4455; // PORTS
-const receiver_email = 'ibrahim-co-90@hotmail.com';
+const receiver_email = 'mareeibrahim90@gmail.comss';
 require('dotenv').config();  // Load environment variables from .env file
 const worker = 'Diea Mari';
 const employee_name = 'Diea Mari';
