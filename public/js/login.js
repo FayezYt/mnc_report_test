@@ -17,7 +17,10 @@ const users = [
     { username: '3', password: '3', name: 'عبيدة نوفل' },
     { username: '14', password: '14', name: 'صفوان دويكات' },
     { username: '15', password: '15', name: 'محمد البسلط' },
-    { username: 'diea', password: '1', name: 'Diea Mari' }
+    { username: 'diea', password: '1', name: 'Diea Mari' },
+    { username: 'fadi', password: '1', name: 'فادي مقبول' },
+    { username: 'ta', password: '1', name: 'تاييد خطاطبة' },
+    { username: 'ahmad', password: '1', name: 'احمد عبد العال' }
 ];
 
 const loginForm = document.getElementById('login-form');
