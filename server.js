@@ -154,6 +154,16 @@ app.post('/visit', (req, res) => {
         });
 });
 
+// Get all users
+app.get('/get-users', (req, res) => {
+    try {
+        const users = readUsersFromExcel();
+        res.json(users);
+    } catch (err) {
+        console.error('Error reading users:', err);
+        res.status(500).send('Error fetching users');
+    }
+});
 
 // Route handler to add current date and day to the Excel file for no work
 app.post('/no-work', (req, res) => {
