@@ -67,7 +67,6 @@ app.get('/get-companies', (req, res) => {
     const companies = rawData.map(row => ({
         name: row['Company Name'],  // Company Name column in Excel
         code: row['Code'],          // Code column in Excel
-        location: row['Location'],  // Location column in Excel
         city: row['City'],          // City column in Excel
         employee: row['employee']   // Employee column in Excel
     }));
@@ -101,30 +100,6 @@ app.get('/get-cities', (req, res) => {
     res.json(companies);
 });
 
-// Example of endpoint to get formatted data from Excel file
-app.get('/get-locations', (req, res) => {
-    // Path to the Excel file (total.xlsx)
-    const filePath = path.join(__dirname, 'data_excel/locations.xlsx');
-
-    // Read the Excel file
-    const workbook = xlsx.readFile(filePath);
-
-    // Get the first sheet's data
-    const sheetName = workbook.SheetNames[0];
-    const sheet = workbook.Sheets[sheetName];
-
-    // Convert the sheet data to JSON
-    const rawData = xlsx.utils.sheet_to_json(sheet);
-
-    // Format the data as desired based on the new structure
-    const companies = rawData.map(row => ({
-        location: row['location'],          // City column in Excel
-            
-    }));
-
-    // Send the formatted data to the frontend
-    res.json(companies);
-});
 
 app.post('/visit', (req, res) => {
     console.log('Received POST request to /visit');
@@ -232,7 +207,6 @@ const watchDir = __dirname;  // This will make the watchDir the current director
 const watcher = chokidar.watch(watchDir, {
     ignored: [
         path.join(__dirname, 'data_excel/citys.xlsx'),
-        path.join(__dirname, 'data_excel/locations.xlsx'),
         path.join(__dirname, 'data_excel/total.xlsx'),
         /^\./  // Ignore hidden files
     ],
@@ -465,9 +439,6 @@ function sendEmail(filePath) {
         }
     });
 }
-
-
-
 
 console.log('Watching for new Excel files...');
 

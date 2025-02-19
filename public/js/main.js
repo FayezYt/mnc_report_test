@@ -17,7 +17,7 @@ let ip_address = 'https://mnc-reports.onrender.com/';
 // DATA FETCHING
 window.onload = function() {
   // Fetch companies data
-  fetch(`http://${ip_address}:4455/get-companies`)
+  fetch(`${ip_address}/get-companies`)
       .then(response => response.json()) // Parse the response as JSON
       .then(data => {
           companies = data; // Store the data in the array
@@ -30,7 +30,7 @@ window.onload = function() {
       });
 
   // Fetch city data
-  fetch(`http://${ip_address}:4455/get-cities`)
+  fetch(`${ip_address}/get-cities`)
       .then(response => response.json())
       .then(cities => {
           console.log(cities, 'locationS Here for test'); // Check the structure of the data
