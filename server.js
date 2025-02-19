@@ -15,6 +15,8 @@ const receiver_email = 'hodlondreamlife@gmail.com';
 require('dotenv').config();  // Load environment variables from .env file
 //const worker = 'Diea Mari';
 let worker = ''; // Define the worker variable globally
+const company_name = 'شركة نوفل للمكياج';
+const owner = 'جمال زربا';
 
 app.use(express.static('public'));
 const corsOptions = {
