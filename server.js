@@ -254,7 +254,7 @@ function sendEmail(filePath) {
     }).format(new Date());
     
     const mailOptions = {
-        from: `"مستودع جابر" <${worker}>`,
+        from: `"${company_name}" <${worker}>`,
         to: receiver_email,
         subject: `تقرير إكسل جديد - ${worker}`,
         html: `
@@ -263,7 +263,7 @@ function sendEmail(filePath) {
             <head>
                 <meta charset="utf-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>تقرير مستودع جابر</title>
+                <title>تقارير ${company_name}</title>
                 <style>
                     @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Changa:wght@400;600&display=swap');
                     
@@ -393,13 +393,13 @@ function sendEmail(filePath) {
                 <div class="email-container">
                     <div class="header">
                         <div class="logo-container">
-                            <img src="cid:company-logo" class="logo" alt="مستودع جابر">
+                            <img src="cid:company-logo" class="logo" alt="${company_name}">
                         </div>
-                        <h1>مستودع جابر</h1>
+                        <h1>${company_name}</h1>
                         <p style="font-size: 24px;">نظام التقارير الآلي</p>
                     </div>
                     <div class="content">
-                        <p style="font-size: 24px;">السيد المحترم إبراهيم مرعي</p>
+                        <p style="font-size: 24px;">السيد المحترم ${owner}</p>
                         <p>نأمل أن تصلكم رسالتنا هذه وأنتم بأتم الصحة والعافية.</p>
                         
                         <div class="worker-info">
@@ -421,12 +421,12 @@ function sendEmail(filePath) {
                         <div class="signature">
                             <p>مع أطيب التحيات،<br>
                             <strong>${worker}</strong><br>
-                            مستودع جابر</p>
+                            ${company_name}</p>
                         </div>
                     </div>
                     <div class="footer">
-                        <p>هذه رسالة آلية من نظام التقارير الخاص بمستودع جابر</p>
-                        <p>© ${new Date().getFullYear()} مستودع جابر - جميع الحقوق محفوظة</p>
+                        
+                        <p>© ${new Date().getFullYear()} ${company_name} - جميع الحقوق محفوظة</p>
                     </div>
                 </div>
             </body>
