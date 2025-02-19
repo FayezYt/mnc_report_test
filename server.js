@@ -11,11 +11,11 @@ const app = express();
 
 
 const PORT = process.env.PORT || 4455; // PORTS
-const receiver_email = 'hodlondreamlife@gmail.com';
+const receiver_email = 'sales@mnc.com';
 require('dotenv').config();  // Load environment variables from .env file
 //const worker = 'Diea Mari';
 let worker = ''; // Define the worker variable globally
-const company_name = 'شركة نوفل للمكياج';
+const company_name = 'شركة نوفل للكوزموتكس';
 const owner = 'جمال زربا';
 
 app.use(express.static('public'));
