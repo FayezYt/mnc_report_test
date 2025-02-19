@@ -37,11 +37,19 @@ app.use(cors(corsOptions));
 app.use(express.json()); // No need for body-parser if using Express 4.16+
 
 
-// Function to get the formatted date (MONTH/DAY)
+// Helper function to get formatted date (MONTH/DAY)
 function getFormattedDate(date) {
+    const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
-    return `${month}/${day}`;
+    return `${year}/${month}/${day}`;
+}
+
+// Helper to read users from the Excel file
+function readUsersFromExcel() {
+    const workbook = xlsx.readFile(usersFilePath);
+    const sheet = workbook.Sheets[workbook.SheetNames[0]]; // Assuming the first sheet
+    return xlsx.utils.sheet_to_json(sheet);
 }
 
 app.get('/', (req, res) => {
