@@ -31,4 +31,3 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentDate = new Date().toLocaleDateString('ar-EG', dateOptions);
     document.getElementById('currentDate').textContent = currentDate;
 });
-    z

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <h1>Admin Panel</h1>
+
+    <h2>Add or Edit User</h2>
+    <form id="userForm">
+        <label for="newUsername">Username:</label>
+        <input type="text" id="newUsername" required><br>
+        
+        <label for="newPassword">Password:</label>
+        <input type="password" id="newPassword" required><br>
+
+        <label for="newName">Name:</label>
+        <input type="text" id="newName" required><br>
+
+        <label for="isAdmin">Admin:</label>
+        <input type="checkbox" id="isAdmin"><br>
+
+        <button type="button" id="addUserBtn" onclick="addUser()">Add User</button>
+    </form>
+
+    <h2>User List</h2>
+    <table id="userTable" border="1">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Users will be listed here -->
+        </tbody>
+    </table>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

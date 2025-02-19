@@ -7,16 +7,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
   <link id="theme-stylesheet" rel="stylesheet" href="css/styles_bright.css">
   <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.css">
   <link rel="icon" href="mnc_logo.ico" sizes="512x512">
   <title>سجل الزيارات</title>
 </head>
 <body dir="rtl">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-
+  <div class="container_logout">
+    <button class="Btn" onclick="handleLogout()">
+        <div class="logout-icon">
+            <i class="fa fa-sign-out logout"></i>
+        </div>
+        <div class="text">Logout</div>
+    </button>
+</div>
   <div class="container">
     <h1>سجل الزيارات</h1>
-
 
     <button id="theme-switch">
       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black">
@@ -27,8 +34,7 @@
       </svg>
     </button>
     
-
-
+    
 
     <div id="alert"></div>
     <span id="date_top"></span>
@@ -39,9 +45,7 @@
         <input id="worker" value="test" class="input1" disabled>
       </div>
 
-      <button type="button" class="btn btn-danger" id="no_work">
-        لم اذهب الى العمل
-      </button>
+      
 
       <div class="form-group">
         <label for="startWork">وقت بدء العمل:</label>
@@ -50,7 +54,7 @@
 
       <div class="form-group">
         <label for="endWork">وقت انتهاء العمل:</label>
-        <input type="time" id="endWork" name="endWork" value="17:00" min="07:00" max="23:59">
+        <input type="time" id="endWork" name="endWork" value="19:00" min="07:00" max="23:59">
       </div>
 
       <h2 id="filter">فلاتر البحث</h2>
@@ -63,14 +67,7 @@
         </select>
       </div>
 
-      <!-- Location Filter (now for the days of the week) -->
-      <div class="form-group">
-        <label for="location">اختر منطقة الزيارة:</label>
-        <select id="location">
-          <option value="all">الكل</option>
-            
-        </select>
-      </div>
+      
 
       <div class="form-group">
         <label for="searchInput">البحث عن زبون:</label>
@@ -82,6 +79,10 @@
 
       <button type="button" id="submitButton" onclick="submitData()" class="btn btn-primary">
         ارسال كشف الزيارات
+      </button>
+
+      <button type="button" class="btn btn-danger" id="no_work">
+          مجاز      -  لم اذهب الى العمل
       </button>
     </form>
   </div>

@@ -11,13 +11,13 @@ worker.value = str;
 
 let companies = [];
 let cities = []; // Array to store cities data
-let ip_address = 'https://jaber-reports.onrender.com';
+let ip_address = 'https://mnc-reports.onrender.com/';
 
 
 // DATA FETCHING
 window.onload = function() {
   // Fetch companies data
-  fetch(`${ip_address}/get-companies`)
+  fetch(`http://${ip_address}:4455/get-companies`)
       .then(response => response.json()) // Parse the response as JSON
       .then(data => {
           companies = data; // Store the data in the array
@@ -30,7 +30,7 @@ window.onload = function() {
       });
 
   // Fetch city data
-  fetch(`${ip_address}/get-cities`)
+  fetch(`http://${ip_address}:4455/get-cities`)
       .then(response => response.json())
       .then(cities => {
           console.log(cities, 'locationS Here for test'); // Check the structure of the data
@@ -38,14 +38,6 @@ window.onload = function() {
       })
       .catch(error => console.error('Error fetching cities:', error));
 
-  // Fetch location data
-  fetch(`${ip_address}/get-locations`)
-      .then(response => response.json())
-      .then(locations => { 
-        console.log(locations, 'locations Here for test'); // Check the structure of the data
-        populateDropdown('location', locations);
-      })
-      .catch(error => console.error('Error fetching Locations:', error));
       
 };
 
@@ -98,37 +90,6 @@ citySelect.addEventListener('change', function() {
     filterCompaniesByCity();
 });
 
-function no_work() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const day = now.getDate().toString().padStart(2, '0');
-    const dateString = `${year}-${month}-${day}`;
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const dayName = dayNames[now.getDay()];
-    const worker = document.getElementById("worker").value;
-
-    fetch('/no-work', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ date: dateString, dayName: dayName, worker: worker })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text();
-    })
-    .then(data => {
-        alert('تم تعيين معلوماتك ك لم اذهب الى العمل');
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('حدث خطأ أثناء إرسال الطلب');
-    });
-}
 
 function searchCompanies() {
     var input, filter, div, companyItems, i;
@@ -137,23 +98,76 @@ function searchCompanies() {
     div = document.getElementById("companyList");
     companyItems = div.getElementsByClassName('companyItem');
 
-    var locationSelect = document.getElementById('location');
-    var selectedLocation = locationSelect.value.toUpperCase();
-
     for (i = 0; i < companyItems.length; i++) {
         var companyName = companyItems[i].querySelector('label').textContent.toUpperCase();
-        var companyLocation = companies[i].location.toUpperCase(); // Ensure location is used here
-
-        if ((selectedLocation === 'ALL' || companyLocation === selectedLocation) && 
-            (companyName.indexOf(filter) > -1)) {
+        // Remove location filtering
+        if (companyName.indexOf(filter) > -1) {
             companyItems[i].style.display = "";
         } else {
             companyItems[i].style.display = "none";
         }
     }
 
-    if (filter === '') {
-        filterCompanies();
+}
+
+let selectedCity = 'all';  // Initially, no city filter applied
+let currentSearchTerm = '';  // Initially, no search term
+
+// Function to apply both city and search filters
+function filterCompanies() {
+    var citySelect = document.getElementById('city');
+    selectedCity = citySelect.value.toUpperCase();  // Get the selected city
+    var input = document.getElementById('searchInput');
+    currentSearchTerm = input.value.toUpperCase();  // Get the search term
+
+    var div = document.getElementById("companyList");
+    var companyItems = div.getElementsByClassName('companyItem');
+
+    for (var i = 0; i < companyItems.length; i++) {
+        var company = companies[i];
+        var companyName = company.name.toUpperCase();
+        var companyCity = company.city.toUpperCase();
+
+        // Check if the company matches the selected city and the search term
+        var matchesCity = (selectedCity === 'ALL' || companyCity === selectedCity);
+        var matchesSearch = companyName.indexOf(currentSearchTerm) > -1;
+
+        // Apply both filters together
+        if (matchesCity && matchesSearch) {
+            companyItems[i].style.display = "";
+        } else {
+            companyItems[i].style.display = "none";
+        }
+    }
+}
+
+// Add event listener for city filter change
+var citySelect = document.getElementById('city');
+citySelect.addEventListener('change', function() {
+    filterCompanies();  // Apply both filters when city changes
+});
+
+// Add event listener for search input change
+var searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('keyup', function() {
+    filterCompanies();  // Apply both filters when search input changes
+});
+
+
+
+function handleLogout() {
+    // Ask for confirmation
+    const isConfirmed = true;
+
+    if (isConfirmed) {
+        // If Yes, remove the key from localStorage
+        localStorage.removeItem("last_username");
+
+        // Redirect to login page
+        window.location.href = "login.html";
+    } else {
+        // If No, just do nothing
+        console.log("User cancelled the logout.");
     }
 }
 
@@ -208,28 +222,6 @@ function populateCompanyList() {
     });
 }
 
-function filterCompanies() {
-    var locationSelect = document.getElementById('location');
-    var selectedLocation = locationSelect.value.toUpperCase();
-
-    var div = document.getElementById("companyList");
-    var companyItems = div.getElementsByClassName('companyItem');
-
-    for (var i = 0; i < companyItems.length; i++) {
-        var companyLocation = companies[i].location.toUpperCase(); 
-
-        if ((selectedLocation === 'ALL' || companyLocation === selectedLocation)) {
-            companyItems[i].style.display = "";
-        } else {
-            companyItems[i].style.display = "none";
-        }
-    }
-}
-
-var locationSelect = document.getElementById('location');
-locationSelect.addEventListener('change', function() {
-    filterCompanies();
-});
 
 function submitData() {
     const now = new Date();
@@ -294,6 +286,7 @@ function submitData() {
             throw new Error('Network response was not ok');
         }
         alert(`يعطيك العافيه ${str} تم ارسال الكشف اليومي بنجاح!`);
+        handleLogout();
     })
     .catch(error => {
         console.error('Error:', error);
@@ -301,6 +294,48 @@ function submitData() {
     });    
 }
 
+
+
+// Get the button element
+const button = document.getElementById('no_work');
+
+// Add event listener for the 'click' event
+button.addEventListener('click', function() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const dateString = `${year}-${month}-${day}`;
+    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayName = dayNames[now.getDay()];
+    const worker = document.getElementById("worker").value;
+
+    fetch('/no-work', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ date: dateString, dayName: dayName, worker: worker })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        alert('تم تعيين معلوماتك ك لم اذهب الى العمل');
+        handleLogout();
+        
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('حدث خطأ أثناء إرسال الطلب');
+    });
+});
+
 function formatTime(time) {
     return time + ":00"; // Format time to include seconds
 }
+
+

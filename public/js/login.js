@@ -9,46 +9,70 @@ for (let i = 0; i < 50; i++) {
     particles.appendChild(particle);
 }
 
-// User authentication
-const users = [
-    { username: 'admin', password: 'admin', name: 'Jamal Zurba' },
-    { username: '4', password: '4', name: 'طالب ابو الحشيش' },
-    { username: '2', password: '2', name: 'يوسف خطاطبة' },
-    { username: '3', password: '3', name: 'عبيدة نوفل' },
-    { username: '14', password: '14', name: 'صفوان دويكات' },
-    { username: '15', password: '15', name: 'محمد البسلط' },
-    { username: 'diea', password: '1', name: 'Diea Mari' },
-    { username: 'fadi', password: '1', name: 'فادي مقبول' },
-    { username: 'ta', password: '1', name: 'تاييد خطاطبة' },
-    { username: 'ahmad', password: '1', name: 'احمد عبد العال' },
-    { username: 'islam', password: 'brother', name: 'اسلام الحب' }
-];
-
+// User authentication logic
 const loginForm = document.getElementById('login-form');
 const loginError = document.getElementById('login-error');
 
 loginForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const username = document.getElementById("username").value.toLowerCase();
+    // Get the username and password from the form
+    const username = document.getElementById("username").value.trim(); // Ensure the username is treated as a string
     const password = document.getElementById("password").value;
 
-    const user = users.find(u => u.username.toLowerCase() === username && u.password === password);
+    fetch('http://localhost:4455/get-users')
+    .then(response => response.json())
+    .then(users => {
+        // Ensure all properties are strings
+        const usersAsString = users.map(user => {
+            return {
+                ...user,
+                username: user.username.toString(),
+                password: user.password.toString(),
+                name: user.name.toString(),
+                // Add other fields you expect that need conversion
+            };
+        });
 
-    if (!user) {
+        // Find the user by comparing both the username and password
+        const user = usersAsString.find(u => {
+            const excelUsername = u.username.trim();  // Excel username as string
+            const inputUsername = username.trim();    // Input username as string
+
+            return excelUsername === inputUsername && u.password === password;
+        });
+
+        if (!user) {
+            loginError.classList.remove("hidden");
+            loginError.classList.add("shake");
+            document.querySelector('.welcome-container').classList.add('shake');
+
+            setTimeout(() => {
+                loginError.classList.remove("shake");
+                document.querySelector('.welcome-container').classList.remove('shake');
+            }, 500);
+        } else {
+            document.querySelector('.welcome-container').classList.add('success');
+            setTimeout(() => {
+                localStorage.setItem("last_username", user.name);
+
+                if (user.isAdmin) {
+                    window.location.href = "admin.html";
+                } else {
+                    window.location.href = "welcome.html";
+                }
+            }, 300);
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching users:", error);
         loginError.classList.remove("hidden");
         loginError.classList.add("shake");
         document.querySelector('.welcome-container').classList.add('shake');
-
         setTimeout(() => {
             loginError.classList.remove("shake");
             document.querySelector('.welcome-container').classList.remove('shake');
         }, 500);
-    } else {
-        document.querySelector('.welcome-container').classList.add('success');
-        setTimeout(() => {
-            localStorage.setItem("last_username", user.name);
-            window.location.href = "welcome.html";
-        }, 300);
-    }
+    });
+
 });
