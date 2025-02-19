@@ -208,6 +208,7 @@ const watcher = chokidar.watch(watchDir, {
     ignored: [
         path.join(__dirname, 'data_excel/citys.xlsx'),
         path.join(__dirname, 'data_excel/total.xlsx'),
+        path.join(__dirname, 'data_excel/users.xlsx'),
         /^\./  // Ignore hidden files
     ],
     persistent: true
