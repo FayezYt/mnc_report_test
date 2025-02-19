@@ -45,6 +45,9 @@ function getFormattedDate(date) {
     return `${year}/${month}/${day}`;
 }
 
+// Define the path for your users Excel file
+const usersFilePath = path.join(__dirname, 'data_excel', 'users.xlsx');
+
 // Helper to read users from the Excel file
 function readUsersFromExcel() {
     const workbook = xlsx.readFile(usersFilePath);
