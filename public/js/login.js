@@ -20,7 +20,7 @@ loginForm.addEventListener("submit", function (event) {
     const username = document.getElementById("username").value.trim(); // Ensure the username is treated as a string
     const password = document.getElementById("password").value;
 
-    fetch('http://localhost:4455/get-users')
+    fetch('https://mnc-reports.onrender.com/get-users')
     .then(response => response.json())
     .then(users => {
         // Ensure all properties are strings

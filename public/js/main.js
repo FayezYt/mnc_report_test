@@ -11,7 +11,7 @@ worker.value = str;
 
 let companies = [];
 let cities = []; // Array to store cities data
-let ip_address = 'https://mnc-reports.onrender.com/';
+let ip_address = 'https://mnc-reports.onrender.com';
 
 
 // DATA FETCHING
